@@ -1,0 +1,11 @@
+apply plugin: 'java'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+}
