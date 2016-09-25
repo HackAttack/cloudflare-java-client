@@ -1,11 +1,13 @@
-apply plugin: 'java'
-apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
+apply plugin: 'groovy'
 
 repositories {
     jcenter()
 }
 
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
 dependencies {
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile localGroovy()
+    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
 }
