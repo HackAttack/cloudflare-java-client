@@ -1,4 +1,7 @@
-apply plugin: 'groovy'
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+}
 
 repositories {
     jcenter()
@@ -7,7 +10,36 @@ repositories {
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
+description = 'A Java/Groovy client for the CloudFlare v4 API'
+group = 'com.mhackner'
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier 'sources'
+            }
+
+            pom.withXml {
+                asNode().appendNode('description', description)
+                def scm = asNode().appendNode('scm')
+                scm.appendNode('developerConnection', 'scm:git:https://github.com/HackAttack/cloudflare-java-client.git')
+                scm.appendNode('url', 'https://github.com/HackAttack/cloudflare-java-client')
+                scm.appendNode('tag', 'HEAD')
+            }
+        }
+    }
+}
+
 dependencies {
-    compile localGroovy()
-    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    compile 'org.codehaus.groovy:groovy:2.4.7'
+    compile 'org.codehaus.groovy:groovy-json:2.4.7'
+    compile 'org.codehaus.groovy:groovy-xml:2.4.7'
+    compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
 }
