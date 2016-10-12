@@ -7,8 +7,8 @@ class CloudFlareClient {
 
     private final RESTClient http
 
-    CloudFlareClient(String apiKey, String email) {
-        http = new RESTClient('https://api.cloudflare.com/client/v4/', ContentType.JSON)
+    CloudFlareClient(String apiKey, String email, String url = 'https://api.cloudflare.com/client/v4/') {
+        http = new RESTClient(url, ContentType.JSON)
         http.headers = ['X-Auth-Key': apiKey, 'X-Auth-Email': email]
     }
 
