@@ -9,7 +9,7 @@ class CloudFlareClient {
 
     CloudFlareClient(String apiKey, String email, String url = 'https://api.cloudflare.com/client/v4/') {
         http = new RESTClient(url, ContentType.JSON)
-        http.headers = ['X-Auth-Key': apiKey, 'X-Auth-Email': email]
+        http.headers = ['X-Auth-Key': apiKey, 'X-Auth-Email': email, 'User-Agent': 'jgritman/httpbuilder']
     }
 
     Map getZone(String domain) {
