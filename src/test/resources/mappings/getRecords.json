@@ -1,7 +1,12 @@
 {
   "request": {
     "method": "GET",
-    "url": "/zones/023e105f4ecef8ad9ca31a8372d0c353/dns_records"
+    "urlPath": "/zones/023e105f4ecef8ad9ca31a8372d0c353/dns_records",
+    "queryParameters": {
+      "per_page": {
+        "equalTo": "1000"
+      }
+    }
   },
   "response": {
     "status": 200,

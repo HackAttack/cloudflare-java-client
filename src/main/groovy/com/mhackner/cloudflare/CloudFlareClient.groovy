@@ -35,7 +35,11 @@ class CloudFlareClient {
     }
 
     List<Map> getRecords(String zoneId, Map params = [:]) {
-        http.get(path: "zones/$zoneId/dns_records", query: params).data.result
+        def data = http.get(path: "zones/$zoneId/dns_records", query: params + [per_page: 1000]).data
+        if (data.result_info.total_pages > 1) {
+            throw new RuntimeException('Data took up multiple pages and paging is not supported yet')
+        }
+        data.result
     }
 
     Map createRecord(String zoneId, String type, String name, String content, Integer priority = null) {

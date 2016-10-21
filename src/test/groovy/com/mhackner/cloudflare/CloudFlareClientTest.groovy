@@ -50,7 +50,7 @@ class CloudFlareClientTest {
     @Test
     void getRecords() {
         client.getRecords('023e105f4ecef8ad9ca31a8372d0c353')
-        verify(getRequestedFor(urlEqualTo('/zones/023e105f4ecef8ad9ca31a8372d0c353/dns_records')))
+        verify(getRequestedFor(urlEqualTo('/zones/023e105f4ecef8ad9ca31a8372d0c353/dns_records?per_page=1000')))
     }
 
     @Test
