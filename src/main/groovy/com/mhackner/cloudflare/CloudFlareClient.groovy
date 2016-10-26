@@ -44,7 +44,7 @@ class CloudFlareClient {
 
     Map createRecord(String zoneId, String type, String name, String content, Integer priority = null) {
         def params = [type: type, name: name, content: content]
-        if (priority) {
+        if (priority != null) {
             params.priority = priority
         }
         http.post(path: "zones/$zoneId/dns_records", body: params).data.result
