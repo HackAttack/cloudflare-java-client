@@ -30,8 +30,8 @@ class CloudFlareClient {
         http.patch(path: "zones/$zoneId", body: [plan: [id: planId]]).data.result
     }
 
-    void deleteZone(String zoneId) {
-        http.delete(path: "zones/$zoneId")
+    Map deleteZone(String zoneId) {
+        http.delete(path: "zones/$zoneId").data.result
     }
 
     List<Map> getRecords(String zoneId, Map params = [:]) {
@@ -50,16 +50,16 @@ class CloudFlareClient {
         http.post(path: "zones/$zoneId/dns_records", body: params).data.result
     }
 
-    void deleteRecord(String zoneId, String recordId) {
-        http.delete(path: "zones/$zoneId/dns_records/$recordId")
+    Map deleteRecord(String zoneId, String recordId) {
+        http.delete(path: "zones/$zoneId/dns_records/$recordId").data.result
     }
 
-    void deleteRecords(String zoneId, Map params = [:]) {
-        getRecords(zoneId, params).each { deleteRecord(zoneId, it.id) }
+    List<Map> deleteRecords(String zoneId, Map params = [:]) {
+        getRecords(zoneId, params).collect { deleteRecord(zoneId, it.id) }
     }
 
-    void updateRecord(Map record) {
-        http.put(path: "zones/$record.zone_id/dns_records/$record.id", body: record)
+    Map updateRecord(Map record) {
+        http.put(path: "zones/$record.zone_id/dns_records/$record.id", body: record).data.result
     }
 
 }

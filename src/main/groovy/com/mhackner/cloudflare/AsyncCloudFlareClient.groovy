@@ -37,7 +37,7 @@ class AsyncCloudFlareClient {
         })
     }
 
-    void deleteZone(String zoneId) {
+    Future<Map> deleteZone(String zoneId) {
         http.request(Method.DELETE) { req ->
             uri.path = "zones/$zoneId"
         }
@@ -55,13 +55,13 @@ class AsyncCloudFlareClient {
         new ResultExtractor(http.post(path: "zones/$zoneId/dns_records", body: params, requestContentType: ContentType.JSON))
     }
 
-    void deleteRecord(String zoneId, String recordId) {
+    Future<Map> deleteRecord(String zoneId, String recordId) {
         http.request(Method.DELETE) { req ->
             uri.path = "zones/$zoneId/dns_records/$recordId"
         }
     }
 
-    void updateRecord(Map record) {
+    Future<Map> updateRecord(Map record) {
         http.request(Method.PUT) { req ->
             uri.path = "zones/$record.zone_id/dns_records/$record.id"
             body = record
