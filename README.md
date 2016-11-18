@@ -12,6 +12,6 @@ repositories {
 }
 
 dependencies {
-    compile 'com.mhackner:cloudflare-java-client:0.3'
+    compile 'com.mhackner:cloudflare-java-client:<version>'
 }
 ```
