@@ -15,7 +15,7 @@ class AsyncCloudFlareClient {
 
     AsyncCloudFlareClient(String apiKey, String email, String url = 'https://api.cloudflare.com/client/v4/') {
         http = new AsyncHTTPBuilder(uri: url, contentType: ContentType.JSON)
-        http.headers = ['X-Auth-Key': apiKey, 'X-Auth-Email': email, 'User-Agent': 'jgritman/httpbuilder']
+        http.headers = ['X-Auth-Key': apiKey, 'X-Auth-Email': email, 'User-Agent': 'HackAttack AsyncCloudFlareClient']
     }
 
     Future<List<Map>> getZone(String domain) {
