@@ -1,0 +1,27 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/zones",
+    "bodyPatterns": [{
+      "equalToJson": "{ \"name\": \"baddomain.com\", \"jump_start\": false }",
+      "ignoreArrayOrder": true
+    }]
+  },
+  "response": {
+    "status": 400,
+    "jsonBody": {
+      "success": false,
+      "errors": [
+        {
+          "code": 1097,
+          "message": "This zone is banned and cannot be added to CloudFlare at this time, please contact CloudFlare Support."
+        }
+      ],
+      "messages": [],
+      "result": null
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

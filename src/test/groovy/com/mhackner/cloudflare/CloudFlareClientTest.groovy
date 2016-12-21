@@ -1,11 +1,16 @@
 package com.mhackner.cloudflare
 
+import groovyx.net.http.HttpResponseException
+
 import com.github.tomakehurst.wiremock.junit.WireMockRule
 
 import org.junit.Test
 import org.junit.Rule
 
+import java.util.concurrent.ExecutionException
+
 import static com.github.tomakehurst.wiremock.client.WireMock.*
+import static org.junit.Assert.fail
 
 class CloudFlareClientTest {
 
@@ -28,6 +33,29 @@ class CloudFlareClientTest {
         asyncClient.createZone('example.com').get()
         verify(2, postRequestedFor(urlEqualTo('/zones'))
                 .withRequestBody(equalToJson('{"name": "example.com", "jump_start": false}')))
+    }
+
+    @Test
+    void createZoneError() {
+        try {
+            client.createZone('baddomain.com')
+            fail('Expected an HttpResponseException to be thrown')
+        } catch (HttpResponseException ex) {
+            assert ex.statusCode == 400
+            assert ex.response.data.errors == [[code: 1097, message: 'This zone is banned and cannot be added to CloudFlare at this time, please contact CloudFlare Support.']]
+        }
+    }
+
+    @Test
+    void createZoneErrorAsync() {
+        try {
+            asyncClient.createZone('baddomain.com').get()
+            fail('Expected an ExecutionException to be thrown')
+        } catch (ExecutionException ex) {
+            def cause = ex.cause as HttpResponseException
+            assert cause.statusCode == 400
+            assert cause.response.data.errors == [[code: 1097, message: 'This zone is banned and cannot be added to CloudFlare at this time, please contact CloudFlare Support.']]
+        }
     }
 
     @Test
