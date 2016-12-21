@@ -2,6 +2,7 @@ package com.mhackner.cloudflare
 
 import groovyx.net.http.AsyncHTTPBuilder
 import groovyx.net.http.ContentType
+import groovyx.net.http.HttpResponseException
 import groovyx.net.http.Method
 
 import java.util.concurrent.ExecutionException
@@ -16,6 +17,12 @@ class AsyncCloudFlareClient {
     AsyncCloudFlareClient(String apiKey, String email, String url = 'https://api.cloudflare.com/client/v4/') {
         http = new AsyncHTTPBuilder(uri: url, contentType: ContentType.JSON)
         http.headers = ['X-Auth-Key': apiKey, 'X-Auth-Email': email, 'User-Agent': 'HackAttack AsyncCloudFlareClient']
+
+        // Mimic the response body parsing of RESTClient
+        http.handler.failure = { resp, data ->
+            resp.data = http.handler.success(resp, data)
+            throw new HttpResponseException(resp)
+        }
     }
 
     Future<List<Map>> getZone(String domain) {
