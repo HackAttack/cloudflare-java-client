@@ -7,8 +7,10 @@ class CloudFlareClient {
 
     private final RESTClient http
 
-    CloudFlareClient(String apiKey, String email, String url = 'https://api.cloudflare.com/client/v4/') {
+    CloudFlareClient(String apiKey, String email, String url = 'https://api.cloudflare.com/client/v4/',
+                     double allowedRequestsPerSecond = 4) {
         http = new RESTClient(url, ContentType.JSON)
+        http.client = new RateLimitingHttpClient(http.client, allowedRequestsPerSecond)
         http.headers = ['X-Auth-Key': apiKey, 'X-Auth-Email': email, 'User-Agent': 'HackAttack CloudFlareClient']
     }
 
