@@ -1,0 +1,23 @@
+{
+  "request": {
+    "method": "DELETE",
+    "url": "/zones/023e105f4ecef8ad9ca31a8372d0c353/purge_cache",
+    "bodyPatterns": [{
+      "equalToJson": "{ \"purge_everything\": true }"
+    }]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "success": true,
+      "errors": [],
+      "messages": [],
+      "result": {
+        "id": "023e105f4ecef8ad9ca31a8372d0c353"
+      }
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

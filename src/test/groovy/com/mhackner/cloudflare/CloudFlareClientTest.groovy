@@ -141,4 +141,49 @@ class CloudFlareClientTest {
                         }''')))
     }
 
+    @Test
+    void purgeCacheAll() {
+        client.purgeCache('023e105f4ecef8ad9ca31a8372d0c353')
+        asyncClient.purgeCache('023e105f4ecef8ad9ca31a8372d0c353').get()
+        verify(2, deleteRequestedFor(urlEqualTo('/zones/023e105f4ecef8ad9ca31a8372d0c353/purge_cache'))
+                .withRequestBody(equalToJson('''
+                        {
+                            "purge_everything": true
+                        }''')))
+    }
+
+    @Test
+    void purgeCacheFiles() {
+        client.purgeCache('023e105f4ecef8ad9ca31a8372d0c353', ['http://www.example.com/css/styles.css'])
+        asyncClient.purgeCache('023e105f4ecef8ad9ca31a8372d0c353', ['http://www.example.com/css/styles.css']).get()
+        verify(2, deleteRequestedFor(urlEqualTo('/zones/023e105f4ecef8ad9ca31a8372d0c353/purge_cache'))
+                .withRequestBody(equalToJson('''
+                        {
+                            "files": ["http://www.example.com/css/styles.css"]
+                        }''')))
+    }
+
+    @Test
+    void purgeCacheTags() {
+        client.purgeCache('023e105f4ecef8ad9ca31a8372d0c353', null, ['tag'])
+        asyncClient.purgeCache('023e105f4ecef8ad9ca31a8372d0c353', null, ['tag']).get()
+        verify(2, deleteRequestedFor(urlEqualTo('/zones/023e105f4ecef8ad9ca31a8372d0c353/purge_cache'))
+                .withRequestBody(equalToJson('''
+                        {
+                            "tags": ["tag"]
+                        }''')))
+    }
+
+    @Test
+    void purgeCacheBoth() {
+        client.purgeCache('023e105f4ecef8ad9ca31a8372d0c353', ['http://www.example.com/css/styles.css'], ['tag'])
+        asyncClient.purgeCache('023e105f4ecef8ad9ca31a8372d0c353', ['http://www.example.com/css/styles.css'], ['tag']).get()
+        verify(2, deleteRequestedFor(urlEqualTo('/zones/023e105f4ecef8ad9ca31a8372d0c353/purge_cache'))
+                .withRequestBody(equalToJson('''
+                        {
+                            "files": ["http://www.example.com/css/styles.css"],
+                            "tags": ["tag"]
+                        }''')))
+    }
+
 }

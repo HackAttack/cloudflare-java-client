@@ -2,6 +2,7 @@ package com.mhackner.cloudflare
 
 import groovyx.net.http.AsyncHTTPBuilder
 import groovyx.net.http.ContentType
+import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.Method
 
@@ -75,6 +76,15 @@ class AsyncCloudFlareClient {
             uri.path = "zones/$record.zone_id/dns_records/$record.id"
             body = record
         }
+    }
+
+    Future<Map> purgeCache(String zoneId, Collection<String> urls = null, Collection<String> tags = null) {
+        def body = urls || tags ? [files: urls, tags: tags].findAll { it.value } : [purge_everything: true]
+        new ResultExtractor(http.doRequest(new HTTPBuilder.RequestConfigDelegate(
+                http,
+                [path: "zones/$zoneId/purge_cache", body: body],
+                new HttpDeleteWithBody(),
+                null)))
     }
 
     private static class ResultExtractor {

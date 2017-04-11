@@ -1,6 +1,7 @@
 package com.mhackner.cloudflare
 
 import groovyx.net.http.ContentType
+import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.RESTClient
 
 class CloudFlareClient {
@@ -62,6 +63,15 @@ class CloudFlareClient {
 
     Map updateRecord(Map record) {
         http.put(path: "zones/$record.zone_id/dns_records/$record.id", body: record).data.result
+    }
+
+    Map purgeCache(String zoneId, Collection<String> urls = null, Collection<String> tags = null) {
+        def body = urls || tags ? [files: urls, tags: tags].findAll { it.value } : [purge_everything: true]
+        http.doRequest(new HTTPBuilder.RequestConfigDelegate(
+                http,
+                [path: "zones/$zoneId/purge_cache", body: body],
+                new HttpDeleteWithBody(),
+                null)).data.result
     }
 
 }
