@@ -121,7 +121,7 @@ class CloudFlareClientTest {
                 data: [:]
         ]
         client.updateRecord(record)
-        asyncClient.updateRecord(record)
+        asyncClient.updateRecord(record).get()
         verify(2, putRequestedFor(urlEqualTo('/zones/023e105f4ecef8ad9ca31a8372d0c353/dns_records/372e67954025e0ba6aaa6d586b9e0b59'))
                 .withRequestBody(equalToJson('''
                         {
