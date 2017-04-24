@@ -31,7 +31,7 @@ publishing {
                 def scm = asNode().appendNode('scm')
                 scm.appendNode('developerConnection', 'scm:git:https://github.com/HackAttack/cloudflare-java-client.git')
                 scm.appendNode('url', 'https://github.com/HackAttack/cloudflare-java-client')
-                scm.appendNode('tag', 'HEAD')
+                scm.appendNode('tag', version == DEFAULT_VERSION ? 'HEAD' : version)
             }
         }
     }
