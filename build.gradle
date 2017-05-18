@@ -42,7 +42,7 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-json:2.4.7'
     compile 'org.codehaus.groovy:groovy-xml:2.4.7'
     compile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
-    compile 'com.google.guava:guava:21.0'
+    compile 'com.google.guava:guava:20.0'
     testCompile 'junit:junit:4.12'
     testCompile 'com.github.tomakehurst:wiremock:2.2.1'
     testRuntime 'org.slf4j:slf4j-nop:1.7.16'
